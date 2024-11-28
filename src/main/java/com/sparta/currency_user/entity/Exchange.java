@@ -24,7 +24,7 @@ public class Exchange extends BaseEntity{
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "to_currency_id")
+    @JoinColumn(name = "currency_id")
     private Currency currency;
 
     @Column(name = "amount_in_krw")

@@ -1,6 +1,7 @@
 package com.sparta.currency_user.service;
 
 
+import com.sparta.currency_user.dto.exchange.ExchangeCountResponseDto;
 import com.sparta.currency_user.dto.exchange.ExchangeResponseDto;
 import com.sparta.currency_user.entity.Currency;
 import com.sparta.currency_user.entity.Exchange;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Service
@@ -48,6 +50,13 @@ public class ExchangeService {
         Exchange findExchange = findExchangeById(exchangeId);
         findExchange.updateStatus("cancelled");
     }
+
+
+    public List<ExchangeCountResponseDto> findTotalExchange(Long userId, Long currencyId){
+        return exchangeRepository.findTotalExchange(userId,currencyId);
+    }
+
+
 
 
 
