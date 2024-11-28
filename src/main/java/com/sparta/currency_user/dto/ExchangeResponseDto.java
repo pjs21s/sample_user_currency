@@ -26,9 +26,6 @@ public class ExchangeResponseDto {
     private LocalDateTime modifiedAt;
 
 
-
-
-
     public ExchangeResponseDto(Exchange exchange) {
         this.id = exchange.getId();
         this.amountInKrw = exchange.getAmountInKrw();

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Getter
-public class Exchange extends BaseEntity{
+public class Exchange extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Exchange extends BaseEntity{
 
     private BigDecimal exchangeRate;
 
-    private String status = "normal" ;
+    private String status = "normal";
 
 
     public Exchange(User userId, Currency toCurrencyId, BigDecimal amountInKrw, BigDecimal amountAfterExchange, BigDecimal exchangeRate) {

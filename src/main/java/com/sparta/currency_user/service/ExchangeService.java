@@ -39,13 +39,13 @@ public class ExchangeService {
     public ExchangeResponseDto save(ExchangeRequestDto exchangeRequestDto) {
 
         //환전 할 통화
-        Currency findCurrency = currencyRepository.findById(exchangeRequestDto.getToCurrencyId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 통화가 없습니다."));
+        Currency findCurrency = currencyRepository.findById(exchangeRequestDto.getToCurrencyId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 통화가 없습니다."));
 
         //환전 후 값
         BigDecimal amountAfterExchange = exchangeRequestDto.getAmountInKrw().divide(findCurrency.getExchangeRate(), 2);
 
         //요청한 사용자
-        User findUser = userRepository.findById(exchangeRequestDto.getUserId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 사용자가 없습니다."));
+        User findUser = userRepository.findById(exchangeRequestDto.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 사용자가 없습니다."));
 
         Exchange result = new Exchange(findUser, findCurrency, exchangeRequestDto.getAmountInKrw(), amountAfterExchange, findCurrency.getExchangeRate());
 
@@ -57,7 +57,7 @@ public class ExchangeService {
     @Transactional
     public List<ExchangeResponseDto> getExchangeById(Long userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"요청하신 사용자를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 사용자를 찾을 수 없습니다."));
 
         List<Exchange> exchanges = exchangeRepository.findAllByUserId(user);
 
@@ -70,13 +70,12 @@ public class ExchangeService {
     //특정 환전 건, 상태값 update
     @Transactional
     public ExchangeResponseDto update(ExchangeRequestDto exchangeRequestDto, Long id) {
-        Exchange exchange = exchangeRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"요청하신 환전 건을 찾을 수 없습니다."));
+        Exchange exchange = exchangeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 환전 건을 찾을 수 없습니다."));
 
         exchange.setStatus(exchangeRequestDto.getStatus());
 
         return new ExchangeResponseDto(exchange);
     }
-
 
 
 }

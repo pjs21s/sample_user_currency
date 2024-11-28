@@ -23,7 +23,7 @@ public class ExchangeController {
 
     //Create
     @PostMapping
-    public ResponseEntity<ExchangeResponseDto> createExchange(@Valid @RequestBody ExchangeRequestDto exchangeRequestDto){
+    public ResponseEntity<ExchangeResponseDto> createExchange(@Valid @RequestBody ExchangeRequestDto exchangeRequestDto) {
 
 
         return ResponseEntity.ok().body(exchangeService.save(exchangeRequestDto));
@@ -32,22 +32,21 @@ public class ExchangeController {
 
     //Read
     @GetMapping("/{userId}")
-    public ResponseEntity<List<ExchangeResponseDto>> getExchangeByUserId(@PathVariable Long userId){
+    public ResponseEntity<List<ExchangeResponseDto>> getExchangeByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok().body(exchangeService.getExchangeById(userId));
     }
 
     //Update
     @PatchMapping("/{id}")
     public ResponseEntity<ExchangeResponseDto> updateExchange(@PathVariable Long id,
-                                                              @RequestBody ExchangeRequestDto exchangeRequestDto){
+                                                              @RequestBody ExchangeRequestDto exchangeRequestDto) {
 
-        ExchangeResponseDto responseDto = exchangeService.update(exchangeRequestDto,id);
+        ExchangeResponseDto responseDto = exchangeService.update(exchangeRequestDto, id);
         return ResponseEntity.ok().body(responseDto);
 
     }
 
     //delete
-
 
 
 }
