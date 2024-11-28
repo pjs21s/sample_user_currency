@@ -15,8 +15,8 @@
 ---
 - Api 명세서 
 
-
+[Api명세서]: https://documenter.getpostman.com/view/39383521/2sAYBXBqa8
 ---
 - ERD
 
-![스크린샷 2024-11-29 오전 1 55 27](https://github.com/user-attachments/assets/255545d2-c7f6-43c4-bb07-af46338d07ab)
+![스크린샷 2024-11-29 오전 1 55 27](https://documenter.getpostman.com/view/39383521/2sAYBXBqa8)
