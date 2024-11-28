@@ -19,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,6 @@ public class ExchangeService {
     public ExchangeResponseDto save(ExchangeRequestDto exchangeRequestDto) {
 
         Currency findCurrency = currencyRepository.findById(exchangeRequestDto.getTo_currency_id()).orElseThrow(EntityNotFoundException::new);
-//        BigDecimal amountAfterExchange = findCurrency.getExchangeRate().divide(exchangeRequestDto.getAmount_in_krw(),2);
         BigDecimal amountAfterExchange = exchangeRequestDto.getAmount_in_krw().divide(findCurrency.getExchangeRate(), 2);
         User findUser = userRepository.findById(exchangeRequestDto.getUser_id()).orElseThrow(EntityNotFoundException::new);
 
