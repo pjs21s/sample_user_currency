@@ -33,6 +33,7 @@ public class ExchangeService {
         Exchange exchange = new Exchange(amountInKrw, "normal");
         exchange.setUser(findUser);
         exchange.setCurrency(findCurrency);
+
         if (Objects.equals(findCurrency.getCurrencyName(), "USD")){
             exchange.usdExchange(findCurrency.getExchangeRate() , findCurrency.getSymbol());
         }

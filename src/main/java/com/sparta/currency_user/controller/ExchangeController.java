@@ -8,6 +8,8 @@ import com.sparta.currency_user.service.ExchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,12 @@ public class ExchangeController {
 
 
     @PostMapping
-    public ResponseEntity<ExchangeResponseDto> createExchange(@RequestBody ExchangeRequestDto requestDto){
+    public ResponseEntity<?> createExchange(
+            @Validated @RequestBody ExchangeRequestDto requestDto,
+            BindingResult bindingResult){
+        ResponseEntity<?> errorMap = getResponseEntity(bindingResult);
+        if (errorMap != null) return errorMap;
+
         return ResponseEntity.ok().body(exchangeService.save(requestDto.getUserId(), requestDto.getCurrencyId(), requestDto.getAmountInKrw()));
     }
 
@@ -44,7 +51,9 @@ public class ExchangeController {
     }
 
 
-
-
+    private ResponseEntity<?> getResponseEntity(BindingResult bindingResult) {
+        ResponseEntity<?> errorMap = CurrencyController.getResponseEntity(bindingResult);
+        return errorMap;
+    }
 
 }

@@ -4,10 +4,16 @@ import com.sparta.currency_user.dto.CurrencyRequestDto;
 import com.sparta.currency_user.dto.CurrencyResponseDto;
 import com.sparta.currency_user.service.CurrencyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/currencies")
@@ -26,7 +32,28 @@ public class CurrencyController {
     }
 
     @PostMapping
-    public ResponseEntity<CurrencyResponseDto> createCurrency(@RequestBody CurrencyRequestDto currencyRequestDto) {
+    public ResponseEntity<?> createCurrency(
+            @Validated @RequestBody CurrencyRequestDto currencyRequestDto,
+            BindingResult bindingResult
+    ) {
+        ResponseEntity<?> errorMap = getResponseEntity(bindingResult);
+        if (errorMap != null) return errorMap;
         return ResponseEntity.ok().body(currencyService.save(currencyRequestDto));
+    }
+
+
+
+    //validation errorMap
+    static ResponseEntity<?> getResponseEntity(BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
+
+            for(FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+
+            return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+        }
+        return null;
     }
 }
