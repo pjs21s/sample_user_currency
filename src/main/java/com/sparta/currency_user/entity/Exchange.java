@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Entity
 @Getter
 @Table(name = "exchange")
@@ -25,15 +28,21 @@ public class Exchange extends BaseEntity{
     private Currency currency;
 
     @Column(name = "amount_in_krw")
-    private Long amountInKrw;
+    private BigDecimal amountInKrw;
 
     @Column(name = "amount_after_exchange")
-    private Float amountAfterExchange;
+    private BigDecimal amountAfterExchange;
 
     private String status;
 
     public Exchange(){}
 
+    public Exchange(BigDecimal amountInKrw , String status , BigDecimal exchangeRate){
+
+        this.amountInKrw = amountInKrw;
+        this.amountAfterExchange = amountInKrw.divide(exchangeRate,2 , RoundingMode.HALF_EVEN);
+        this.status =status;
+    }
     public void updateStatus(String status){
         this.status = status;
     }
