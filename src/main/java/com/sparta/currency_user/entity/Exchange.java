@@ -31,20 +31,27 @@ public class Exchange extends BaseEntity{
     private BigDecimal amountInKrw;
 
     @Column(name = "amount_after_exchange")
-    private BigDecimal amountAfterExchange;
+    private String amountAfterExchange;
 
     private String status;
 
     public Exchange(){}
 
-    public Exchange(BigDecimal amountInKrw , String status , BigDecimal exchangeRate){
+    public Exchange(BigDecimal amountInKrw , String status ){
 
         this.amountInKrw = amountInKrw;
-        this.amountAfterExchange = amountInKrw.divide(exchangeRate,2 , RoundingMode.HALF_EVEN);
         this.status =status;
     }
     public void updateStatus(String status){
         this.status = status;
+    }
+
+    public void usdExchange(BigDecimal exchangeRate , String symbol){
+        this.amountAfterExchange = amountInKrw.divide(exchangeRate,2 , RoundingMode.HALF_EVEN) + symbol;
+    }
+
+    public void jpyExchange(BigDecimal exchangeRate , String symbol){
+        this.amountAfterExchange = amountInKrw.divide(exchangeRate,0 , RoundingMode.HALF_EVEN) + symbol;
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -29,9 +30,16 @@ public class ExchangeService {
         User findUser  = userService.findUserById(userId);
         Currency findCurrency = currencyService.findCurrencyById(currencyId);
 
-        Exchange exchange = new Exchange(amountInKrw, "normal" , findCurrency.getExchangeRate());
+        Exchange exchange = new Exchange(amountInKrw, "normal");
         exchange.setUser(findUser);
         exchange.setCurrency(findCurrency);
+        if (Objects.equals(findCurrency.getCurrencyName(), "USD")){
+            exchange.usdExchange(findCurrency.getExchangeRate() , findCurrency.getSymbol());
+        }
+        if (Objects.equals(findCurrency.getCurrencyName(), "JPY")){
+            exchange.jpyExchange(findCurrency.getExchangeRate(), findCurrency.getSymbol());
+        }
+
         exchangeRepository.save(exchange);
 
         return new ExchangeResponseDto(exchange.getId() , exchange.getUser().getId() , exchange.getCurrency().getId() , exchange.getAmountInKrw() , exchange.getAmountAfterExchange() , exchange.getStatus());

@@ -36,10 +36,10 @@ public class DataInitializer {
         User user1 = new User("user1" , "aa@aa.com");
         User user2 = new User("user2" , "bb@bb.com");
 
-        BigDecimal exchangeRate1 = new BigDecimal(1430);
+        BigDecimal exchangeRate1 = new BigDecimal(900);
         Currency currency1 = new Currency("USD" , exchangeRate1 , "$");
 
-        BigDecimal exchangeRate2 = new BigDecimal(-150);
+        BigDecimal exchangeRate2 = new BigDecimal(9);
         Currency currency2 = new Currency("JPY" , exchangeRate2 , "円");
 
         userRepository.save(user1);

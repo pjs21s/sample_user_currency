@@ -16,12 +16,12 @@ public class ExchangeResponseDto {
 
     private final BigDecimal amountInKrw;
 
-    private final BigDecimal amountAfterExchange;
+    private final String amountAfterExchange;
 
     private final String status;
 
 
-    public ExchangeResponseDto(Long id, Long userId, Long currencyId, BigDecimal amountInKrw, BigDecimal amountAfterExchange, String status) {
+    public ExchangeResponseDto(Long id, Long userId, Long currencyId, BigDecimal amountInKrw, String amountAfterExchange, String status) {
         this.id = id;
         this.userId = userId;
         this.currencyId = currencyId;
