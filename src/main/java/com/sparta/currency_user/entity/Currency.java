@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Getter
-public class Currency {
+public class Currency extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +24,7 @@ public class Currency {
         this.exchangeRate = exchangeRate;
         this.symbol = symbol;
     }
+
 
     public Currency() {}
 }
