@@ -6,7 +6,6 @@ import com.sparta.currency_user.service.ExchangeService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.sparta.currency_user.config.GlobalExceptionHandler;
 
 import java.util.List;
 
