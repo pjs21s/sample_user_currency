@@ -31,7 +31,7 @@ public class ExchangeController {
     }
 
     //Read
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<ExchangeResponseDto>> getExchangeByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok().body(exchangeService.getExchangeById(userId));
     }
@@ -46,7 +46,6 @@ public class ExchangeController {
 
     }
 
-    //delete
 
 
 }
