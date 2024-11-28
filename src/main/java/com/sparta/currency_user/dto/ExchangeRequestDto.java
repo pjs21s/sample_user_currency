@@ -1,18 +1,24 @@
 package com.sparta.currency_user.dto;
 
 import lombok.Getter;
-
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+
 
 @Getter
 public class ExchangeRequestDto {
-    private Long user_id;
-    private BigDecimal amount_in_krw;
-    private Long to_currency_id;
+    private Long userId;
+
+    @NotNull(message = "amount in krw는 Null이 불가능 합니다.")
+    private BigDecimal amountInKrw;
+
+    @NotNull(message = "to Currency Id는 Null이 불가능 합니다.")
+    private Long toCurrencyId;
+
     private String status;
 
-    public ExchangeRequestDto(Long user_id) {
-        this.user_id = user_id;
+    public ExchangeRequestDto(Long userId) {
+        this.userId = userId;
     }
 
     public ExchangeRequestDto(String status) {
@@ -20,6 +26,12 @@ public class ExchangeRequestDto {
     }
 
     public ExchangeRequestDto() {
+    }
+
+    public ExchangeRequestDto(Long userId, BigDecimal amountInKrw, Long toCurrencyId) {
+        this.userId = userId;
+        this.amountInKrw = amountInKrw;
+        this.toCurrencyId = toCurrencyId;
     }
 }
 

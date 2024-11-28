@@ -3,8 +3,10 @@ package com.sparta.currency_user.controller;
 import com.sparta.currency_user.dto.ExchangeRequestDto;
 import com.sparta.currency_user.dto.ExchangeResponseDto;
 import com.sparta.currency_user.service.ExchangeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.sparta.currency_user.config.GlobalExceptionHandler;
 
 import java.util.List;
 
@@ -14,14 +16,18 @@ import java.util.List;
 public class ExchangeController {
     private final ExchangeService exchangeService;
 
+
     public ExchangeController(ExchangeService exchangeService) {
         this.exchangeService = exchangeService;
     }
 
     //Create
     @PostMapping
-    public ResponseEntity<ExchangeResponseDto> createExchange(@RequestBody ExchangeRequestDto exchangeRequestDto){
+    public ResponseEntity<ExchangeResponseDto> createExchange(@Valid @RequestBody ExchangeRequestDto exchangeRequestDto){
+
+
         return ResponseEntity.ok().body(exchangeService.save(exchangeRequestDto));
+
     }
 
     //Read

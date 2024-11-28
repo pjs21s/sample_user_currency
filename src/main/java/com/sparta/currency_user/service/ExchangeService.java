@@ -13,8 +13,15 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -31,11 +38,16 @@ public class ExchangeService {
     @Transactional
     public ExchangeResponseDto save(ExchangeRequestDto exchangeRequestDto) {
 
-        Currency findCurrency = currencyRepository.findById(exchangeRequestDto.getTo_currency_id()).orElseThrow(EntityNotFoundException::new);
-        BigDecimal amountAfterExchange = exchangeRequestDto.getAmount_in_krw().divide(findCurrency.getExchangeRate(), 2);
-        User findUser = userRepository.findById(exchangeRequestDto.getUser_id()).orElseThrow(EntityNotFoundException::new);
+        //환전 할 통화
+        Currency findCurrency = currencyRepository.findById(exchangeRequestDto.getToCurrencyId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 통화가 없습니다."));
 
-        Exchange result = new Exchange(findUser, findCurrency, exchangeRequestDto.getAmount_in_krw(), amountAfterExchange, findCurrency.getExchangeRate());
+        //환전 후 값
+        BigDecimal amountAfterExchange = exchangeRequestDto.getAmountInKrw().divide(findCurrency.getExchangeRate(), 2);
+
+        //요청한 사용자
+        User findUser = userRepository.findById(exchangeRequestDto.getUserId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "요청하신 사용자가 없습니다."));
+
+        Exchange result = new Exchange(findUser, findCurrency, exchangeRequestDto.getAmountInKrw(), amountAfterExchange, findCurrency.getExchangeRate());
 
         Exchange savedExchange = exchangeRepository.save(result);
         return new ExchangeResponseDto(savedExchange);
@@ -45,13 +57,9 @@ public class ExchangeService {
     @Transactional
     public List<ExchangeResponseDto> getExchangeById(Long userId) {
 
-        User user = userRepository.findById(userId).orElseThrow(()->new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"요청하신 사용자를 찾을 수 없습니다."));
 
         List<Exchange> exchanges = exchangeRepository.findAllByUserId(user);
-
-        if (exchanges.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found");
-        }
 
         return exchanges.stream()
                 .map(ExchangeResponseDto::new)
@@ -59,13 +67,16 @@ public class ExchangeService {
 
     }
 
+    //특정 환전 건, 상태값 update
     @Transactional
     public ExchangeResponseDto update(ExchangeRequestDto exchangeRequestDto, Long id) {
-        Exchange exchange = exchangeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Exchange exchange = exchangeRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"요청하신 환전 건을 찾을 수 없습니다."));
 
         exchange.setStatus(exchangeRequestDto.getStatus());
 
         return new ExchangeResponseDto(exchange);
     }
+
+
 
 }
