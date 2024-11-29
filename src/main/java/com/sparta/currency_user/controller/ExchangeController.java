@@ -45,11 +45,4 @@ public class ExchangeController {
 
     }
 
-    //delete~~~
-//    @DeleteMapping ~~~
-//    dslfkdasjflkdasjflkds
-
-
-
-
 }
