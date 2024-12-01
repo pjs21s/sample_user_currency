@@ -1,5 +1,6 @@
 package com.sparta.currency_user.service;
 
+import com.sparta.currency_user.dto.ExchangeClaimCancelStatusResponseDto;
 import com.sparta.currency_user.dto.ExchangeClaimRequestDto;
 import com.sparta.currency_user.dto.ExchangeClaimResponseDto;
 import com.sparta.currency_user.entity.Currency;
@@ -51,12 +52,13 @@ public class ExchangeClaimService {
     }
 
     @Transactional
-    public String cancelExchangeClaim(Long exchangeClaimId) {
+    public ExchangeClaimCancelStatusResponseDto cancelExchangeClaim(Long exchangeClaimId) {
         Optional<ExchangeClaim> byId = exchangeClaimRepository.findById(exchangeClaimId);
-        byId.orElseThrow(
+        ExchangeClaim exchangeClaim = byId.orElseThrow(
                 () -> new CustomException(ErrorCodeEnum.EXCHANGE_CLAIM_NOT_FOUND)
-        ).updateStatus();
+        );
+        exchangeClaim.updateStatus();
 
-        return "요청이 성공적으로 취소됐습니다.";
+        return new ExchangeClaimCancelStatusResponseDto(exchangeClaim.getId(), exchangeClaim.getStatus(), exchangeClaim.getModifiedAt());
     }
 }

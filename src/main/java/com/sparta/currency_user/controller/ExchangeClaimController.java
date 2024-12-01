@@ -1,5 +1,6 @@
 package com.sparta.currency_user.controller;
 
+import com.sparta.currency_user.dto.ExchangeClaimCancelStatusResponseDto;
 import com.sparta.currency_user.dto.ExchangeClaimRequestDto;
 import com.sparta.currency_user.dto.ExchangeClaimResponseDto;
 import com.sparta.currency_user.service.ExchangeClaimService;
@@ -29,7 +30,7 @@ public class ExchangeClaimController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> cancelExchangeClaims(@PathVariable("id") Long id){
+    public ResponseEntity<ExchangeClaimCancelStatusResponseDto> cancelExchangeClaims(@PathVariable("id") Long id){
         return ResponseEntity.ok(exchangeClaimService.cancelExchangeClaim(id));
     }
 

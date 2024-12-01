@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ExchangeClaimResponseDto {
 
-    private Long userId;
+    private Long id;
     private BigDecimal amountInKrw;
     private BigDecimal amountAfterExchange;
     private String currencyName;
@@ -18,7 +18,7 @@ public class ExchangeClaimResponseDto {
     private LocalDateTime createdAt;
 
     public ExchangeClaimResponseDto(ExchangeClaim exchangeClaim) {
-        this.userId = exchangeClaim.getUser().getId();
+        this.id = exchangeClaim.getId();
         this.currencyName = exchangeClaim.getCurrency().getCurrencyName();
         this.amountInKrw = exchangeClaim.getAmountInKrw();
         this.amountAfterExchange = exchangeClaim.getAmountAfterExchange();
