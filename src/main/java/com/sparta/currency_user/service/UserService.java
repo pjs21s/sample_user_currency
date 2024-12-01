@@ -3,6 +3,8 @@ package com.sparta.currency_user.service;
 import com.sparta.currency_user.dto.UserRequestDto;
 import com.sparta.currency_user.dto.UserResponseDto;
 import com.sparta.currency_user.entity.User;
+import com.sparta.currency_user.global.CustomException;
+import com.sparta.currency_user.global.ErrorCodeEnum;
 import com.sparta.currency_user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
 
     public UserResponseDto findById(Long id) {
@@ -20,7 +23,7 @@ public class UserService {
     }
 
     public User findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        return userRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCodeEnum.USER_NOT_FOUND));
     }
 
     public List<UserResponseDto> findAll() {
