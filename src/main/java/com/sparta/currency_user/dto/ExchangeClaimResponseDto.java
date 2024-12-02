@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 @Getter
 public class ExchangeClaimResponseDto {
 
+
+
+
+
     private Long id;
     private BigDecimal amountInKrw;
     private BigDecimal amountAfterExchange;
